@@ -14,9 +14,7 @@ const val defaultQuote = "whoops, something went wrong"
 class QuoteGardenProvider : QuotesProvider {
 
     private val getRandomUrl = "https://api.forismatic.com/api/1.0/?method=getQuote&format=json"
-
     override fun randomQuote(): Quote {
-
         val restTemplate = RestTemplate()
         restTemplate.errorHandler = EmptyErrorHandler()
 
@@ -30,17 +28,16 @@ class QuoteGardenProvider : QuotesProvider {
     }
 
     internal data class QuoteResponse(
-            val quoteText: String,
-            val quoteAuthor: String,
-            val senderName: String,
-            val senderLink: String,
-            val quoteLink: String
+        val quoteText: String,
+        val quoteAuthor: String,
+        val senderName: String,
+        val senderLink: String,
+        val quoteLink: String
     )
 }
 
 class EmptyErrorHandler : ResponseErrorHandler {
     override fun hasError(response: ClientHttpResponse) = false
-
     override fun handleError(response: ClientHttpResponse) {
         // nothing to do
     }
