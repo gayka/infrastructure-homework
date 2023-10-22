@@ -1,5 +1,6 @@
 package com.stringconcat.people.presentation.model
 
+import com.stringconcat.people.businessPeople.MATURE
 import com.stringconcat.people.businessPeople.Person
 
 class PersonRespectfullViewModel(
@@ -10,7 +11,7 @@ class PersonRespectfullViewModel(
         "${prefixIfNeeded()} ${person.firstName} ${person.secondName}"
 
     private fun prefixIfNeeded() =
-        if (person.age() > 40) {
+        if (person.age() > MATURE) {
             when (person.sex) {
                 Person.Sex.MAN -> "Mr"
                 Person.Sex.WOMAN -> "Mrs"

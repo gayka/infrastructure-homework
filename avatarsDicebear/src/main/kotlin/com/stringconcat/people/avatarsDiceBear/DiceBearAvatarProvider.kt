@@ -8,6 +8,7 @@ import javax.inject.Named
 class DiceBearAvatarProvider : AvatarProvider {
     override fun createForPerson(person: Person): String {
         val uniqueValue = person.firstName + person.secondName
-        return "https://avatars.dicebear.com/v2/${if (person.sex == Person.Sex.MAN) "male" else "female"}/$uniqueValue.svg"
+        val avatarUrl = "https://avatars.dicebear.com/v2/"
+        return "$avatarUrl${if (person.sex == Person.Sex.MAN) "male" else "female"}/$uniqueValue.svg"
     }
 }

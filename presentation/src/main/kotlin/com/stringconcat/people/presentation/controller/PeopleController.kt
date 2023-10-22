@@ -32,18 +32,24 @@ class PeopleController(
     }
 
     @RequestMapping(value = ["/id/{id}"])
-    fun get(@PathVariable id: String): ResponseEntity<String> {
+    fun getPeople(@PathVariable id: String): ResponseEntity<String> {
         val idUUD = try {
             UUID.fromString(id)
         } catch (e: IllegalArgumentException) {
+            println(e)
             return ResponseEntity.badRequest().build()
         }
 
-        val person = getPerson(idUUD) ?: return ResponseEntity.badRequest().build()
+        val person = getPerson(idUUD)
+        val response = if (person != null) {
+            ResponseEntity.ok(
+                renderDetailedView(PersonRespectfullViewModel(person))
+            )
+        } else {
+            ResponseEntity.ok().build()
+        }
 
-        return ResponseEntity.ok(
-            renderDetailedView(PersonRespectfullViewModel(person))
-        )
+        return response
     }
 
     @RequestMapping(value = ["/generate"], method = [RequestMethod.GET])

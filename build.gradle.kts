@@ -10,7 +10,8 @@ plugins {
     id("org.jetbrains.kotlin.plugin.jpa") version "1.5.10" apply false
     id("com.github.ben-manes.versions") version "0.48.0"
     id("org.jlleitschuh.gradle.ktlint") version "11.6.0"
-    // id("org.sonarqube") version "4.4.1.3373"
+    id("io.gitlab.arturbosch.detekt") version "1.18.0"
+    jacoco
 }
 
 allprojects {
@@ -74,6 +75,7 @@ allprojects {
 subprojects {
     apply(plugin = "org.jlleitschuh.gradle.ktlint") // Version should be inherited from parent
     apply(plugin = "com.github.ben-manes.versions")
+    apply(plugin = "io.gitlab.arturbosch.detekt")
     repositories {
         // Required to download KtLint
         mavenCentral()
@@ -83,10 +85,32 @@ subprojects {
     configure<org.jlleitschuh.gradle.ktlint.KtlintExtension> {
         debug.set(true)
     }
+
+    detekt {
+        buildUponDefaultConfig = true
+    }
+
+    tasks.withType<io.gitlab.arturbosch.detekt.Detekt>().configureEach {
+        jvmTarget = "1.8"
+        basePath = rootDir.absolutePath
+    }
+    tasks.withType<io.gitlab.arturbosch.detekt.DetektCreateBaselineTask>().configureEach {
+        jvmTarget = "1.8"
+    }
 }
 
 java.sourceCompatibility = JavaVersion.VERSION_1_8
 tasks.build { dependsOn(tasks.dependencyUpdates) }
+tasks.jacocoTestReport { dependsOn(tasks.test) }
+tasks.jacocoTestCoverageVerification {
+    violationRules {
+        rule {
+            limit {
+                minimum = "0.4".toBigDecimal()
+            }
+        }
+    }
+}
 dependencies {
     implementation(project(":app"))
     implementation(project(":presentation"))

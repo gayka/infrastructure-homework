@@ -15,12 +15,15 @@ class MeUseCase(
             id = id,
             firstName = "Sergey",
             secondName = "Bukharov",
-            birthDate = LocalDate.of(1987, 12, 1),
+            birthDate = DEFAULT_DATE_OF_BIRTH,
             sex = Person.Sex.MAN,
             avatartUrl = "https://avatars.dicebear.com/v2/male/my-somffething.svg",
             favoriteQuote = "make the easy things easy, and the hard things possible"
         )
         persistPerson.persist(me)
         return me
+    }
+    companion object {
+        val DEFAULT_DATE_OF_BIRTH: LocalDate = LocalDate.of(1987, 12, 1)
     }
 }

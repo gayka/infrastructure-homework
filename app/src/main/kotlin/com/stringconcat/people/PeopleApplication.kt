@@ -8,6 +8,6 @@ import org.springframework.context.annotation.ComponentScan
 @ComponentScan(value = ["com.stringconcat.people"])
 class PeopleApplication
 
-fun main(_Args: Array<String>) {
-    runApplication<PeopleApplication>(*_Args)
+fun main(vararg appArg: String) {
+    runApplication<PeopleApplication>(*appArg)
 }
